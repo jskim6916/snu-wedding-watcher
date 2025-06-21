@@ -1,0 +1,15 @@
+name: SNU vacancy watch
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # every 5 minutes
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.x" }
+      - run: pip install beautifulsoup4 requests
+      - run: python check.py
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
